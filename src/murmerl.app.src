@@ -1,0 +1,9 @@
+{application, murmerl,
+ [
+  {description, "Murmurhash3 ala NIF"},
+  {vsn, "0.1.0"},
+  {modules, [murmerl]},
+  {registered, []},
+  {applications, [kernel, stdlib]},
+  {env, []}
+ ]}.
