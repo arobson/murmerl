@@ -7,14 +7,14 @@
 extern "C" {
 	ERL_NIF_TERM murmurhash_x86_32_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
 	ERL_NIF_TERM murmurhash_x86_128_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
-	ERL_NIF_TERM murmurhash_x86_128_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
+	ERL_NIF_TERM murmurhash_x64_128_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
 
 
 	static ErlNifFunc funcs[] =
 	{
 		{"hash_x86_32_impl", 2, murmurhash_x86_32_impl},
 		{"hash_x86_128_impl", 2, murmurhash_x86_128_impl},
-		{"hash_x64_128_impl", 2, murmurhash_x86_128_impl}
+		{"hash_x64_128_impl", 2, murmurhash_x64_128_impl}
 	};
 
 	ERL_NIF_INIT(murmerl, funcs, NULL, NULL, NULL, NULL);

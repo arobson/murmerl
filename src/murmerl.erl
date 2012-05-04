@@ -17,6 +17,7 @@
 	hash_x64_128/1]).
 
 init() ->
+	random:seed(now()),
 	case code:priv_dir(murmerl) of
         {error, bad_name} ->
             case code:which(?MODULE) of
@@ -29,33 +30,35 @@ init() ->
             SoName = filename:join(Dir, "murmerl_nif")
     end,
     case erlang:load_nif(SoName, 0) of
-    	ok -> io:format("Nif loaded, broseppe~n");
+    	ok -> io:format("murmerl_nif loaded~n");
     	{error, {Reason, Text}} ->
-    		io:format(":@ ~p :: ~p ~n", [Reason, Text])
+    		io:format("Failed to load murmerl_nif ~p :: ~p ~n", [Reason, Text])
     end.
 
-hash_x86_32(Key) when is_binary(Key) ->
+hash_32(Key) when is_binary(Key) ->
 	hash_x86_32_impl(Key, random:uniform(1000000));
 
-hash_x86_32(Key) when is_list(Key) ->
-	hash_x86_32(list_to_binary(Key));
+hash_32(Key) when is_list(Key) ->
+	hash_32(list_to_binary(Key));
 
-hash_x86_32(Key) when is_atom(Key) ->
-	hash_x86_32(term_to_binary(Key)).
+hash_32(Key) when is_atom(Key) ->
+	hash_32(term_to_binary(Key)).
 
 
-hash_x86_128(Key) when is_binary(Key) ->
-	hash_x86_128_impl(Key, random:uniform(1000000));
+hash_128(Key) when is_binary(Key) ->
+	List = hash_x86_128_impl(Key, random:uniform(1000000)),
+	merge_int_list_to_bignum(List);
 
-hash_x86_128(Key) when is_list(Key) ->
-	hash_x86_128(list_to_binary(Key));
+hash_128(Key) when is_list(Key) ->
+	hash_128(list_to_binary(Key));
 
-hash_x86_128(Key) when is_atom(Key) ->
-	hash_x86_128(term_to_binary(Key)).
+hash_128(Key) when is_atom(Key) ->
+	hash_128(term_to_binary(Key)).
 
 
 hash_x64_128(Key) when is_binary(Key) ->
-	hash_x64_128_impl(Key, random:uniform(1000000));
+	List = hash_x64_128_impl(Key, random:uniform(1000000)),
+	merge_int_list_to_bignum(List);
 
 hash_x64_128(Key) when is_list(Key) ->
 	hash_x64_128(list_to_binary(Key));
@@ -71,3 +74,18 @@ hash_x86_128_impl(_, _) ->
 
 hash_x64_128_impl(_, _) ->
 	exit(nif_lib_not_loaded).
+
+merge_int_list_to_bignum(List) ->
+	binary_to_term(
+		binary:list_to_bin(
+			lists:flatten(
+				lists:map(
+					fun(X) -> 
+						binary:bin_to_list(
+							term_to_binary(X)
+						) 
+					end, 
+				List)
+			)
+		)
+	).
