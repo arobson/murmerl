@@ -12,12 +12,11 @@
 -version(0.1).
 -on_load(init/0).
 -export([
-	hash_x86_32/1,
-	hash_x86_128/1,
+	hash_32/1,
+	hash_128/1,
 	hash_x64_128/1]).
 
 init() ->
-	random:seed(now()),
 	case code:priv_dir(murmerl) of
         {error, bad_name} ->
             case code:which(?MODULE) of
@@ -36,7 +35,7 @@ init() ->
     end.
 
 hash_32(Key) when is_binary(Key) ->
-	hash_x86_32_impl(Key, random:uniform(1000000));
+	hash_x86_32_impl(Key, 1000000);
 
 hash_32(Key) when is_list(Key) ->
 	hash_32(list_to_binary(Key));
@@ -46,7 +45,7 @@ hash_32(Key) when is_atom(Key) ->
 
 
 hash_128(Key) when is_binary(Key) ->
-	List = hash_x86_128_impl(Key, random:uniform(1000000)),
+	List = hash_x86_128_impl(Key, 1000000),
 	merge_int_list_to_bignum(List);
 
 hash_128(Key) when is_list(Key) ->
@@ -57,7 +56,7 @@ hash_128(Key) when is_atom(Key) ->
 
 
 hash_x64_128(Key) when is_binary(Key) ->
-	List = hash_x64_128_impl(Key, random:uniform(1000000)),
+	List = hash_x64_128_impl(Key, 1000000),
 	merge_int_list_to_bignum(List);
 
 hash_x64_128(Key) when is_list(Key) ->
