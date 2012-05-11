@@ -37,10 +37,7 @@ init() ->
 hash_32(Key) when is_binary(Key) ->
 	hash_x86_32_impl(Key, 1000000);
 
-hash_32(Key) when is_list(Key) ->
-	hash_32(list_to_binary(Key));
-
-hash_32(Key) when is_atom(Key) ->
+hash_32(Key) ->
 	hash_32(term_to_binary(Key)).
 
 
@@ -48,10 +45,7 @@ hash_128(Key) when is_binary(Key) ->
 	List = hash_x86_128_impl(Key, 1000000),
 	merge_int_list_to_bignum(List);
 
-hash_128(Key) when is_list(Key) ->
-	hash_128(list_to_binary(Key));
-
-hash_128(Key) when is_atom(Key) ->
+hash_128(Key) ->
 	hash_128(term_to_binary(Key)).
 
 
@@ -59,10 +53,7 @@ hash_x64_128(Key) when is_binary(Key) ->
 	List = hash_x64_128_impl(Key, 1000000),
 	merge_int_list_to_bignum(List);
 
-hash_x64_128(Key) when is_list(Key) ->
-	hash_x64_128(list_to_binary(Key));
-
-hash_x64_128(Key) when is_atom(Key) ->
+hash_x64_128(Key) ->
 	hash_x64_128(term_to_binary(Key)).
 
 hash_x86_32_impl(_, _) ->
