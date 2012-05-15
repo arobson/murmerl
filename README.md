@@ -13,24 +13,14 @@ or
 
 ## API
 
-x86 is the default implementation, if you want the x64 call, you get the more verbose function form.
+x86 is the default implementation, if you want the x64 call, you get the more verbose function form. Key can be any valid term.
 
 hash_32( Key ) -> integer
-	Types:
-
-		**Key = binary | atom | list**
-
+	
 hash_128( Key ) -> integer
-	Types:
-
-		**Key = binary | atom | list**
-
-
+	
 hash_x64_128( Key ) -> integer
-	Types:
-
-		**Key = binary | atom | list**
-
+	
 ## Playtime
 
 A couple of fun things you can do to kick the tires in Erlang shell.
