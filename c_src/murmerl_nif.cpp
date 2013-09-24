@@ -1,6 +1,6 @@
 #include "murmerl_nif.h"
 #include "erl_nif_compat.h"
-#include "murmurhash3.h"
+#include "MurmurHash3.h"
 
 #define N32 624
 
